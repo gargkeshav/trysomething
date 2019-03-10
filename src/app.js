@@ -45,5 +45,3 @@ const bootstrapApp = app => {
 
 
 bootstrapApp(app);
-
-
