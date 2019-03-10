@@ -5,7 +5,6 @@ const appRoutes = require('./app-routes');
 
 const port = process.env.PORT || 3000;
 
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -14,6 +13,7 @@ app.use(
     extended: true
   })
 );
+
 app.use(appRoutes);
 
 const bootstrapApp = app => {
@@ -22,25 +22,7 @@ const bootstrapApp = app => {
   });
 };
 
-
-
 bootstrapApp(app);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // const express = require("express");
 // const bodyParser = require("body-parser");

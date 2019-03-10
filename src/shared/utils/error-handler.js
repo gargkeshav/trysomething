@@ -1,6 +1,6 @@
-const winston = require("winston");
+const winston = require('winston');
 
-const ApiError = require("./api-error");
+const ApiError = require('./api-error');
 
 /**
  * @desc This function is used as middleware for express application for handling route errors
@@ -11,7 +11,7 @@ const ApiError = require("./api-error");
  */
 const errorHandler = (err, req, res, next) => {
   // trace request
-  winston.log("info", `\nREQUEST HAS ERROR:${req.method}: ${req.url} \n`);
+  winston.log('info', `\nREQUEST HAS ERROR:${req.method}: ${req.url} \n`);
 
   logError(err);
 
@@ -19,8 +19,8 @@ const errorHandler = (err, req, res, next) => {
     // response sending has already started
     res.end();
     winston.log(
-      "warn",
-      "errorHandler: Request headers already sent. Cannot respond with error."
+      'warn',
+      'errorHandler: Request headers already sent. Cannot respond with error.'
     );
   } else if (err instanceof ApiError) {
     // Api error, just send details
@@ -42,11 +42,11 @@ module.exports = errorHandler;
 const logError = err => {
   // log all errors
   if (err instanceof ApiError) {
-    winston.log("warn", `API ERROR: ${err.message}\n`);
+    winston.log('warn', `API ERROR: ${err.message}\n`);
   } else if (err instanceof Error) {
-    winston.log("error", `SERVER ERROR: ${err.message}\n`, err);
+    winston.log('error', `SERVER ERROR: ${err.message}\n`, err);
   } else {
-    winston.log("error", `UNKNOWN ERROR: ${err.toString()}\n`);
+    winston.log('error', `UNKNOWN ERROR: ${err.toString()}\n`);
   }
 };
 
@@ -68,10 +68,10 @@ const sendErrorResponse = (apiError, res) => {
  */
 const inspectDetail = err => {
   // native mongo driver errors, forwarded by mongoose
-  if (err instanceof Error && err.name === "MongoError" && err.driver) {
+  if (err instanceof Error && err.name === 'MongoError' && err.driver) {
     switch (err.code) {
       case 11000: // unique index conflict
-        return "Document already exists.";
+        return 'Document already exists.';
     }
   }
 
@@ -81,5 +81,5 @@ const inspectDetail = err => {
   }
 
   // return default detail
-  return "Unknown Error";
+  return 'Unknown Error';
 };
