@@ -1,49 +1,80 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const { dbConnection } = require("./shared/services");
-const { errorHandler } = require("./shared/utils");
-const appRoutes = require("./app-routes");
+const appRoutes = require('./app-routes');
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
-// creating the express app
+
 const app = express();
 
-/***** Configuring the application *****/
-
-// Body-parser
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true
   })
 );
-
-// registering the app routes
 app.use(appRoutes);
-
-// register error handler
-app.use(errorHandler);
-
-/***** App configuration ends *****/
 
 const bootstrapApp = app => {
   app.listen(port, () => {
-    console.log(`App working on ${port}`);
+    console.log(`App running on port: ${port}`);
   });
 };
 
-/**
- * Connect to the database
- */
-dbConnection
-  .createConnection()
-  .then(db => {
-    console.log("Db connected");
-  })
-  .catch(e => {
-    console.log("Error in connecting to database");
-  });
+
 
 bootstrapApp(app);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const express = require("express");
+// const bodyParser = require("body-parser");
+
+// const { errorHandler } = require("./shared/utils");
+// const appRoutes = require("./app-routes");
+
+// const port = process.env.PORT || 3000;
+
+// // creating the express app
+// const app = express();
+
+// /***** Configuring the application *****/
+
+// // Body-parser
+// app.use(bodyParser.json());
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true
+//   })
+// );
+
+// // registering the app routes
+// app.use(appRoutes);
+
+// // register error handler
+// app.use(errorHandler);
+
+// /***** App configuration ends *****/
+
+// const bootstrapApp = app => {
+//   app.listen(port, () => {
+//     console.log(`App working on ${port}`);
+//   });
+// };
+
+// bootstrapApp(app);
