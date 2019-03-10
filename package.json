@@ -4,7 +4,8 @@
   "description": "The PR-status API provides a list of all open PR requests and their corresponding status.",
   "main": "/src/app.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node ./src/app.js"
   },
   "author": "Keshav Garg",
   "license": "ISC",
