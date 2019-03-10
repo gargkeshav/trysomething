@@ -1,9 +1,9 @@
 const { Router } = require('express');
-const { prRoutes} = require('./pr');
-
+const { listPR } = require('./controllers');
 
 const router = Router();
 
-router.use(prRoutes);
+
+router.get('/api/v1/pr', listPR);
 
 module.exports = router;
