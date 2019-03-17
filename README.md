@@ -30,15 +30,12 @@ GET /api/v1/pr endpoint returns the open PR states as json:
 }
 ```
 
-API Usage:-
+# API Usage:-
 
 - **Authorization** : By default Authorization is sent as "null" to GitHub API server. Github limits the number of requests made without Authentication. For limits please refer to GitHub API's limits.
   This can be overridden by passing an Authorization header with GET request. The API server currently doesn't validate Authorization header and will use the same header for subsequent GitHub API calls.
-- **Repo** : By default **twbs/bootstrap** repository is configured. This can be overridden by passing a **repo** header and value.
+- **Repo** : By default **twbs/bootstrap** repository is configured. This can be overridden by passing a **repo** header and value. The current API server return details of all the open PR and respective status for given repository.
 - **MAX_PER_PAGE** : By default the API server sets the per_page=100 parameter while querying the GitHub API which is the current max limit set by GitHub. This can however be changed by setting an environment variable MAX_PER_PAGE.
-
-- The current API server return details of all the open PR and respective status for given repository.
-
 
 # Monitoring
 Project also exposes health metrics in prometheus format for monitoring for but not limited to the following metrics:
@@ -46,15 +43,14 @@ Project also exposes health metrics in prometheus format for monitoring for but 
 - Average request latency
 - Status codes of http requests
 
-This project supports 2 approaches to enable this functionality but favours the approach 2.
-
-Approach 1 :-
+This project supports 2 approaches to enable this functionality but favors the approach 2.
+### Approach 1 :-
 - Creating custom metrics in API server using prom-cient library and collecting data for respective metrics.
-- The metrics are exposed in prometheus format and available ove /metrics endpoint.
+- The metrics are exposed in prometheus format and available over /metrics endpoint.
 - But the module has been commented out and metrics disabled in lieu of approach 2.
 
-Approach 2:-
-- This approach uses the built in mmonitoring functionality offered by nginx-ingress controller which is used as an INgress controller for this project.
+### Approach 2:-
+- This approach uses the built in monitoring functionality offered by nginx-ingress controller which is used as an Ingress controller for this project.
 - Nginx Ingress collects and exposes the health metrics in prometheus format by default which can be queried to derive the required information.
 - This takes away the extra weight lifting from the API server to collect and expose the required health checks.
 - If Prometeus is present in the same cluster it can auto discover the endpoints for scraping health metrics.
@@ -62,16 +58,20 @@ Approach 2:-
 - In case of multiple replicas of Ingress controller, we can deploy a controller which can collect, aggregate, label and expose the required metrics.
 
 # Packaging
-- **Dockerfile** included in the project uses node 10 Alpine image as base image to build. A built docker Image is already pushed to dockerhub repo kshavgarg/pr-status-app. Image name and version can be found in helm values.yaml
-- **HELM** chart is also availble under Helm directory. The chart "pr-status-app" can be used to deploy the application in kubernetes cluster. Additional/Optional yaml files are also present in Helm directory which can be used to create a service to expose nginx-ingress controller default metrics over an HTTP endpoint using an Ingress resource.
+#### Dockerfile
+Included in the project uses node 10 Alpine image as base image to build. A built docker Image is already pushed to dockerhub repo kshavgarg/pr-status-app. Image name and version can be found in helm values.yaml
+#### HELM
+Helm chart is also available under Helm directory. The chart "pr-status-app" can be used to deploy the application in kubernetes cluster. Additional/Optional yaml files are also present in Helm directory which can be used to create a service to expose nginx-ingress controller default metrics over an HTTP endpoint using an Ingress resource.
 
 # How to Run
 
-#h3 Pre Requisite
+#### Pre Requisite
 - Setup Kubernetes cluster
 - Setup kubectl, helm, tiller
 - Setup nginx-ingress controller or change the ingress annotation in Values.yaml file in Helm chart.
 - If you want to deploy in new/specific namespace or can deploy in default.
+
+
 ```kubectl create namespace prstatus```
 
 ```helm install -n prstatus ./pr-status-app```
@@ -80,4 +80,4 @@ Approach 2:-
 
 Get the External endpoint or LB endpoint and Go to http://${EXTERNAL_ENDPOINT}/api/v1/pr for PR status and http://${EXTERNAL_ENDPOINT}/metrics for prometheus metrics if exposed.
 
-A live instance of this project is currently availble on public cloud via "http://35.189.14.9/api/v1/pr" endpoint and the metrics can be scraped via "http://35.189.14.9/metrics" endpoint. ** Not sure how long it'll be running.
+A live instance of this project is currently available on public cloud via "http://35.189.14.9/api/v1/pr" endpoint and the metrics can be scraped via "http://35.189.14.9/metrics" endpoint. ** Not sure how long it'll be running.
