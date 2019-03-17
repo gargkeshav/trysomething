@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const appRoutes = require('./app-routes');
-const Prometheus = require('./shared/utils/prometheus');  
+const Prometheus = require('./shared/utils/prometheus');
+const { errorHandler } = require('./shared/utils/');
 
 const port = process.env.PORT || 3000;
 
@@ -19,11 +20,10 @@ app.use(
 // registering the app routes
 app.use(appRoutes);
 
-
 /**
  * The below arguments start the counter functions
  */
-app.use(Prometheus.requestCounters);  
+app.use(Prometheus.requestCounters);
 app.use(Prometheus.responseCounters);
 
 /**
@@ -34,7 +34,10 @@ Prometheus.injectMetricsRoute(app);
 /**
  * Enable collection of default metrics
  */
-Prometheus.startCollection(); 
+Prometheus.startCollection();
+
+// Error handler
+app.use(errorHandler);
 
 /***** App configuration ends *****/
 const bootstrapApp = app => {
@@ -42,6 +45,5 @@ const bootstrapApp = app => {
     console.log(`App running on port: ${port}`);
   });
 };
-
 
 bootstrapApp(app);

@@ -178,20 +178,12 @@ const filterReviewInProgress = arr => {
         obj.requested_reviewers.length > 0 || obj.requested_teams.length > 0
     )
     .map(obj => obj.number);
-
-  // var filteredArr = arr.map(obj => {
-  //   let tmpObj = {};
-  //   tmpObj.id = obj['number'];
-  //   tmpObj.title = obj['title'];
-  //   tmpObj.state = (obj.requested_reviewers.length >0 || obj.requested_teams.length >0) ? reviewInProgressState:reviewPendingState;
-  //   return tmpObj;
-  // })
-  //   .filter(obj => obj.state === reviewInProgressState ? obj : null);
-  // return filteredArr;
 };
 
 module.exports = {
   getPRState,
   filterReviewInProgress,
-  makeGetCall
+  makeGetCall,
+  scrapPullApi,
+  scrapSearchApi
 };
