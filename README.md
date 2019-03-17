@@ -30,7 +30,7 @@ GET /api/v1/pr endpoint returns the open PR states as json:
 }
 ```
 
-# API Usage:-
+# API Details and Configurations
 
 - **Authorization** : By default Authorization is sent as "null" to GitHub API server. Github limits the number of requests made without Authentication. For limits please refer to GitHub API's limits.
   This can be overridden by passing an Authorization header with GET request. The API server currently doesn't validate Authorization header and will use the same header for subsequent GitHub API calls.
