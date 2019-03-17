@@ -78,9 +78,11 @@ Helm chart is also available under Helm directory. The chart "pr-status-app" can
 
 #### To expose nginx ingress controller metrics
 Go to ./helm/monitor-ingress directory
+
 Must apply in the same namespace of ingress controller.
 
 ```kubectl apply -n ingress-nginx -f ./service.yaml```
+
 ```kubectl apply -n ingress-nginx -f ./ingress.yaml```
 
 # How to check
