@@ -50,7 +50,7 @@ module.exports.startCollection = function () {
  * Currently it increments the counters for numOfPaths and pathsTaken
  */
 module.exports.requestCounters = function (req, res, next) {  
-    if (req.path != '/metrics') {
+    if (req.path = '/api/v1/pr') {
         numOfRequests.inc({ method: req.method });
         pathsTaken.inc({ path: req.path });
     }
@@ -62,7 +62,7 @@ module.exports.requestCounters = function (req, res, next) {
  * Currently it updates the responses summary
  */
 module.exports.responseCounters = ResponseTime(function (req, res, time) {  
-    if(req.url != '/metrics') {
+    if(req.url = '/api/v1/pr') {
         responses.labels(req.method, req.url, res.statusCode).observe(time);
     }
 })

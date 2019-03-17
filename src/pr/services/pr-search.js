@@ -191,5 +191,7 @@ const filterReviewInProgress = arr => {
 };
 
 module.exports = {
-  getPRState
+  getPRState,
+  filterReviewInProgress,
+  makeGetCall
 };

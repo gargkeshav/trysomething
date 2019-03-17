@@ -1,4 +1,5 @@
 const { getPRState } = require('../services');
+const { defaultRepo } = require('../config');
 
 const listPR = async (req, res, next) => {
   let results;
@@ -10,7 +11,7 @@ const listPR = async (req, res, next) => {
     console.log(`${authorization}        ${repo}`);
     results = await getPRState(repo, authorization);
   } catch (e) {
-    res.status(e.status ? e.status : 500).send(e.body);
+    next(e);
   }
   res.status(200).send(results);
   next();
