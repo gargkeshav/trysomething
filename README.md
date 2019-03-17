@@ -69,12 +69,19 @@ Helm chart is also available under Helm directory. The chart "pr-status-app" can
 - Setup Kubernetes cluster
 - Setup kubectl, helm, tiller
 - Setup nginx-ingress controller or change the ingress annotation in Values.yaml file in Helm chart.
-- If you want to deploy in new/specific namespace or can deploy in default.
+- If you want to deploy in new/specific namespace or can deploy in default. Go to ./helm directory
 
 
 ```kubectl create namespace prstatus```
 
 ```helm install -n prstatus ./pr-status-app```
+
+#### To expose nginx ingress controller metrics
+Go to ./helm/monitor-ingress directory
+Must apply in the same namespace of ingress controller.
+
+```kubectl apply -n ingress-nginx -f ./service.yaml```
+```kubectl apply -n ingress-nginx -f ./ingress.yaml```
 
 # How to check
 
