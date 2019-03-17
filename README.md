@@ -57,6 +57,14 @@ This project supports 2 approaches to enable this functionality but favors the a
 - Or else we can create a service for monitoring which can be exposed over an HTTP endpoint. (Refer to "How to Run" section for steps required to enable)
 - In case of multiple replicas of Ingress controller, we can deploy a controller which can collect, aggregate, label and expose the required metrics.
 
+## Metrics Supported 
+
+Name  |   Query
+---   |   ---
+Throughput (req/sec)  |   sum(label_replace(rate(nginx_ingress_controller_requests{namespace=”%{kube_namespace}”,ingress=~”.%{ci_environment_slug}.”}[2m]), “status_code”, “${1}xx”, “status”, “(.)..”)) by (status_code)
+Latency (sec)  |   sum(rate(nginx_ingress_controller_ingress_upstream_latency_seconds_sum{namespace=”%{kube_namespace}”,ingress=~”.%{ci_environment_slug}.”}[2m])) / sum(rate(nginx_ingress_controller_ingress_upstream_latency_seconds_count{namespace=”%{kube_namespace}”,ingress=~”.%{ci_environment_slug}.”}[2m]))
+Status Code   |   sum(label_replace(count(nginx_ingress_controller_requests{namespace=”%{kube_namespace}”,ingress=~”.%{ci_environment_slug}.”}[2m]), “status_code”, “${1}xx”, “status”, “(.)..”)) by (status_code)
+
 # Packaging
 #### Dockerfile
 Included in the project uses node 10 Alpine image as base image to build. A built docker Image is already pushed to dockerhub repo kshavgarg/pr-status-app. Image name and version can be found in helm values.yaml
